@@ -18,18 +18,21 @@ class Task(db.Model):
 
 @app.route("/", methods=["GET", "POST"])
 def todo_list():
+    data = Task.query.all()
     if request.method == "GET":
-        data = Task.query.all()
         return render_template("index.html", data=data)
     else:
         content = request.form["content"]
         new_task = Task(content=content)
-        try:
-            db.session.add(new_task)
-            db.session.commit()
-            return redirect("/")
-        except:
-            return "Something went wrong with adding your task to database"
+        if len(new_task.content) > 0:
+            try:
+                db.session.add(new_task)
+                db.session.commit()
+                return redirect("/")
+            except:
+                return "Something went wrong with adding your task to database"
+        else:
+            return render_template("index.html", data=data)
 
 
 @app.route("/delete/<int:id>", methods=["GET"])
@@ -50,6 +53,7 @@ def update(id):
         return render_template("update.html", task=task_to_update)
     else:
         task_to_update.content = request.form["content"]
+        task_to_update.date = datetime.now()
         try:
             db.session.commit()
             return redirect("/")

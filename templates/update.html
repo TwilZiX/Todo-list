@@ -4,7 +4,7 @@
 <div class="container">
     <p>Update Task</p>
     <form action="/update/{{task.id}}" method="POST">
-        <input type="text" autofocus name="content" id="content" placeholder={{task.content}} autocomplete="off">
+        <input type="text" autofocus name="content" id="content" autocomplete="off" placeholder={{task.content}}>
         <input type="submit" value="Update">
     </form>
 </div>
