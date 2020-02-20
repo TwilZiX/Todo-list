@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container">
+    <p>Todo list</p>
+    {% if data %}
+    <table>
+        <tr>
+            <th>Content</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ row["content"] }}</td>
+            <td>{{ row["date"].strftime("%Y-%m-%d, %H:%M:%S") }}</td>
+            <td>
+                <a href="/update/{{ row['id'] }}">Update</a>
+                <br>
+                <a href="/delete/{{ row['id'] }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <h2>There is nothing to do right now.</h2>
+    {% endif %}
+    <form action="/" method="POST">
+        <input type="text" autofocus name="content" id="content" autocomplete="off">
+        <input type="submit" value="Add">
+    </form>
+</div>
+{% endblock %}
